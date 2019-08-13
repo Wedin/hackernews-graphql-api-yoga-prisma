@@ -17,26 +17,6 @@ const resolvers = {
   Vote,
 };
 
-//TODO IMPLEMENT THESE:
-// updateLink: (parent, args) => {
-//   const linkToUpdate = links.find(link => link.id === args.id);
-//   if (!linkToUpdate) {
-//     throw new Error("Invalid ID");
-//   }
-//   linkToUpdate.description = args.description;
-//   linkToUpdate.url = args.url;
-
-//   return linkToUpdate;
-// },
-// deleteLink: (parent, args) => {
-//   const linkToDelete = links.find(link => link.id === args.id);
-//   if (!linkToDelete) {
-//     throw new Error("Invalid ID");
-//   }
-//   links = links.filter(link => link.id !== args.id);
-//   return linkToDelete;
-// },
-
 const server = new GraphQLServer({
   typeDefs: "./src/schema.graphql",
   resolvers,

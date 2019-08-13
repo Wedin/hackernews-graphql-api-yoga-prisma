@@ -44,6 +44,47 @@ function post(parent, args, context, info) {
   });
 }
 
+async function updateLink(parent, args, context, info) {
+  const userId = getUserId(context);
+
+  const linkExists = await context.prisma.$exists.vote({
+    user: { id: userId },
+    link: { id: args.id },
+  });
+
+  if (linkExists) {
+    throw new Error(`No link to update: ${args.id}`);
+  }
+
+  //https://www.prisma.io/docs/1.34/prisma-client/basic-data-access/writing-data-JAVASCRIPT-rsc6/#updating-records
+  return context.prisma.updateLink({
+    data: {
+      url: args.url,
+      description: args.description,
+    },
+    where: {
+      id: args.id,
+    },
+  });
+}
+
+async function deleteLink(parent, args, context, info) {
+  const userId = getUserId(context);
+
+  const linkExists = await context.prisma.$exists.vote({
+    user: { id: userId },
+    link: { id: args.id },
+  });
+
+  if (linkExists) {
+    throw new Error(`No link to delete: ${args.id}`);
+  }
+
+  return context.prisma.deleteLink({
+    id: args.id,
+  });
+}
+
 async function vote(parent, args, context, info) {
   const userId = getUserId(context);
 
@@ -65,5 +106,7 @@ module.exports = {
   signup,
   login,
   post,
+  updateLink,
+  deleteLink,
   vote,
 };
