@@ -1,0 +1,30 @@
+.env
+
+# dependencies
+/node_modules
+
+# testing
+/coverage
+
+# production
+/build
+/lambda
+
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# dependencies
+node_modules
+
+# logs
+*.log
+
+### OSX ###
+*.DS_Store
+.AppleDouble
+.LSOverride
+
+.env
