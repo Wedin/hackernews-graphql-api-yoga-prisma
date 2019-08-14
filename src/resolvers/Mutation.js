@@ -1,6 +1,5 @@
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const { getUserId } = require("../utils");
 const { JWT_APP_SECRET } = require("../config");
 
 async function signup(parent, args, context, info) {
@@ -35,7 +34,10 @@ async function login(parent, args, context, info) {
 }
 
 function post(parent, args, context, info) {
-  const userId = getUserId(context);
+  const userId = context.request.userId;
+  if (!userId) {
+    throw new Error("You must be logged in!");
+  }
 
   return context.prisma.createLink({
     url: args.url,
@@ -45,7 +47,10 @@ function post(parent, args, context, info) {
 }
 
 async function updateLink(parent, args, context, info) {
-  const userId = getUserId(context);
+  const userId = context.request.userId;
+  if (!userId) {
+    throw new Error("You must be logged in!");
+  }
 
   const linkExists = await context.prisma.$exists.vote({
     user: { id: userId },
@@ -69,7 +74,10 @@ async function updateLink(parent, args, context, info) {
 }
 
 async function deleteLink(parent, args, context, info) {
-  const userId = getUserId(context);
+  const userId = context.request.userId;
+  if (!userId) {
+    throw new Error("You must be logged in!");
+  }
 
   const linkExists = await context.prisma.$exists.vote({
     user: { id: userId },
@@ -86,7 +94,10 @@ async function deleteLink(parent, args, context, info) {
 }
 
 async function vote(parent, args, context, info) {
-  const userId = getUserId(context);
+  const userId = context.request.userId;
+  if (!userId) {
+    throw new Error("You must be logged in!");
+  }
 
   const linkExists = await context.prisma.$exists.vote({
     user: { id: userId },
